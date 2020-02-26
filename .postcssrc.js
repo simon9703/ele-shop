@@ -1,10 +1,15 @@
 // https://github.com/michael-ciniawsky/postcss-load-config
 
 module.exports = {
-  "plugins": {
-    "postcss-import": {},
-    "postcss-url": {},
+  plugins: {
+    'postcss-import': {},
+    'postcss-url': {},
     // to edit target browsers: use "browserslist" field in package.json
-    "autoprefixer": {}
+    autoprefixer: {},
+    'postcss-px-to-viewport': {
+      viewportWidth: 375,
+      propList: ['*', '!*font*', '!line-height'], // 必须有*
+      selectorBlackList: ['ignore']
+    }
   }
 }

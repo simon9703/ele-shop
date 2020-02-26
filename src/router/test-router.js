@@ -16,7 +16,7 @@ let router = [
       },
       {
         path: 'virtual',
-        name: 'test',
+        name: 'virtual',
         component: VirtualScroll
       },
       {

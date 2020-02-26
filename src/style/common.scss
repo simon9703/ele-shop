@@ -1,0 +1,41 @@
+/* 全局scss */
+
+@mixin ellipsis($font: 10em) {
+  max-width: $font;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin onePix($position: bottom, $color: #ccc, $border-radius: initial) {
+  // position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform-origin: left top;
+    box-sizing: border-box;
+    pointer-events: none;
+
+    border-radius: $border-radius;
+
+    @if ($position == round) {
+      border: 1px solid $color;
+    } @else {
+      border-#{$position}: 1px solid $color;
+    }
+
+    // 默认按照 dpr = 2
+    width: 200%;
+    height: 200%;
+    transform: scale(0.5);
+
+    @media (-webkit-min-device-pixel-ratio: 3) {
+      width: 300%;
+      height: 300%;
+      transform: scale(0.3333);
+    }
+  }
+}
