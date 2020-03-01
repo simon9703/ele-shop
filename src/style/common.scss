@@ -1,5 +1,15 @@
 /* 全局scss */
 
+$primary: #0085ff; // 主色
+$secondary: #0af; // 主浅色
+
+$disable: #cdcdcd; // 失效
+$active: #0085ff; // 激活
+
+/**
+  * 文本溢出...
+  * $font: 超过宽度时显示...
+  */
 @mixin ellipsis($font: 10em) {
   max-width: $font;
   overflow: hidden;
@@ -7,7 +17,11 @@
   white-space: nowrap;
 }
 
-@mixin onePix($position: bottom, $color: #ccc, $border-radius: initial) {
+/** 
+  * 移动端1px
+  * $position可选round | trbl， 四周或单方向
+  */
+@mixin onepx($position: bottom, $color: #ccc, $border-radius: initial) {
   // position: relative;
 
   &::before {
@@ -27,11 +41,12 @@
       border-#{$position}: 1px solid $color;
     }
 
-    // 默认按照 dpr = 2
+    // 默认按照 dpr > 2
     width: 200%;
     height: 200%;
     transform: scale(0.5);
 
+    // dpr > 3 时
     @media (-webkit-min-device-pixel-ratio: 3) {
       width: 300%;
       height: 300%;
