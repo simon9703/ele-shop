@@ -1,6 +1,6 @@
 <template>
   <div>
-    <svg-icon iconClass="shouye"></svg-icon>
+    <svg-icon icon-class="svg" icon-name="shouye"></svg-icon>
     <p>图标</p>
     <main></main>
     <footer-nav></footer-nav>
@@ -8,13 +8,13 @@
 </template>
 
 <script>
-import FooterNav from '@/components/footer/FooterNav'
-export default {
-  components: {
-    FooterNav
-  }
-}
+export default {}
 </script>
 
 <style lang="scss" scoped>
+.svg {
+  width: 64px;
+  height: 64px;
+  fill: red;
+}
 </style>

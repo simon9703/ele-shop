@@ -52,6 +52,7 @@ module.exports = {
       {
         test: /\.svg$/, // zsm
         loader: 'svg-sprite-loader',
+        include: [resolve('src/assets/icon')], // 仅仅在此路径下当作公共图标，其他svg可当作图片资源。
         options: {
           symbolId: 'icon-[name]' // #引用别名
         }
@@ -59,7 +60,7 @@ module.exports = {
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
-        exclude: [resolve('src/assets/svg')], // 不能同时有两个svg loader。会导致后者编译的时，引用非源文件svg的Object出错。
+        exclude: [resolve('src/assets/icon')], // 不能同时有两个svg loader。会导致后者编译的时，引用非源文件svg的Object出错。
         options: {
           limit: 10000,
           name: utils.assetsPath('img/[name].[hash:7].[ext]')
