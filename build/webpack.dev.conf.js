@@ -38,7 +38,8 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     quiet: true, // necessary for FriendlyErrorsPlugin
     watchOptions: {
       poll: config.dev.poll
-    }
+    },
+    before: require('../mock') // zsm webpack-dev注册mock，真实请求
   },
   plugins: [
     new webpack.DefinePlugin({

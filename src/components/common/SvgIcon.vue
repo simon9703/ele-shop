@@ -1,5 +1,5 @@
 <template>
-  <svg :class="iconFinalClass">
+  <svg class="svg-icon">
     <use :href="iconFinalName" />
   </svg>
 </template>
@@ -10,18 +10,11 @@ export default {
     iconName: {
       type: String,
       required: true
-    },
-    iconClass: {
-      type: String,
-      default: ''
     }
   },
   computed: {
     iconFinalName() {
       return `#icon-${this.iconName}`
-    },
-    iconFinalClass() {
-      return this.iconClass ? this.iconClass : 'svg-icon'
     }
   }
 }
@@ -29,7 +22,6 @@ export default {
 
 <style lang="scss" scoped>
 .svg-icon {
-  width: 32px;
-  height: 32px;
+  fill: currentColor; // 随父布局color
 }
 </style>

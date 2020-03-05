@@ -1,6 +1,6 @@
 <template>
   <div>
-    <svg-icon icon-class="svg" icon-name="shouye"></svg-icon>
+    <svg-icon class="svg" icon-name="shouye"></svg-icon>
     <p>图标</p>
     <main></main>
     <footer-nav></footer-nav>
@@ -8,13 +8,18 @@
 </template>
 
 <script>
-export default {}
+export default {
+  data() {
+    return {}
+  },
+  methods: {}
+}
 </script>
 
 <style lang="scss" scoped>
 .svg {
-  width: 64px;
-  height: 64px;
-  fill: red;
+  width: 32px;
+  height: 32px;
+  color: red;
 }
 </style>

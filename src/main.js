@@ -3,17 +3,14 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-
-// import './util/rem'
 import './style/initial.css'
 
+import axios from './util/api'
 import './util/auto-import'
 import './util/permission'
 
-// import SvgIcon from './components/svg-icon'
 Vue.config.productionTip = false
-
-// Vue.component('svg-icon', SvgIcon)
+Vue.prototype.request = axios // 全局注册 ==> this.xx
 
 /* eslint-disable no-new */
 new Vue({
