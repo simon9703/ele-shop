@@ -1,10 +1,30 @@
 /* 全局scss */
 
+$primary-light: #0af; // 主浅色
 $primary: #0085ff; // 主色
-$secondary: #0af; // 主浅色
-
-$disable: #cdcdcd; // 失效
 $active: #0085ff; // 激活
+
+$ignore: #ddd; // 忽略，用于符号
+$slight: #999; // 轻微
+$normal: #666; // 正常
+$emphasize: #333; // 强调
+
+$h1: 18px;
+$desc: 12px;
+
+$font-s: 10px;
+$font-m: 12px;
+$font-l: 15px;
+
+/**
+ * flex居中样式
+ */
+@mixin display-flex($justify: center, $align: center, $direction: row) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+  flex-direction: $direction;
+}
 
 /**
   * 文本溢出...
@@ -19,38 +39,51 @@ $active: #0085ff; // 激活
 
 /** 
   * 移动端1px
-  * $position可选round | trbl， 四周或单方向
+  * $position可选trbl单方向
   */
-@mixin onepx($position: bottom, $color: #ccc, $border-radius: initial) {
+@mixin onepx($position: bottom, $color: #f1f1f1) {
   // position: relative;
 
   &::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    transform-origin: left top;
-    box-sizing: border-box;
     pointer-events: none;
+    background-color: $color;
 
-    border-radius: $border-radius;
+    @if ($position == top or $position== bottom) {
+      // 上下边线
+      left: 0;
+      right: 0;
+      #{$position}: 0;
+      border-top: 1px solid $color;
+      transform-origin: center #{$position};
 
-    @if ($position == round) {
-      border: 1px solid $color;
+      // 默认按照 dpr > 2
+      @media (-webkit-min-device-pixel-ratio: 2) {
+        transform: scale(1, 0.5);
+      }
+
+      // dpr > 3 时
+      @media (-webkit-min-device-pixel-ratio: 3) {
+        transform: scale(1, 0.3333);
+      }
     } @else {
-      border-#{$position}: 1px solid $color;
-    }
+      //左右边线
+      top: 0;
+      bottom: 0;
+      #{$position}: 0;
+      border-left: 1px solid $color;
+      transform-origin: #{$position} center;
 
-    // 默认按照 dpr > 2
-    width: 200%;
-    height: 200%;
-    transform: scale(0.5);
+      // 默认按照 dpr > 2
+      @media (-webkit-min-device-pixel-ratio: 2) {
+        transform: scale(0.5, 1);
+      }
 
-    // dpr > 3 时
-    @media (-webkit-min-device-pixel-ratio: 3) {
-      width: 300%;
-      height: 300%;
-      transform: scale(0.3333);
+      // dpr > 3 时
+      @media (-webkit-min-device-pixel-ratio: 3) {
+        transform: scale(0.3333, 1);
+      }
     }
   }
 }

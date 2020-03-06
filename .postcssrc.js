@@ -8,7 +8,7 @@ module.exports = {
     autoprefixer: {},
     'postcss-px-to-viewport': {
       viewportWidth: 375,
-      propList: ['*', '!*font*', '!line-height'], // 必须有*
+      propList: ['*', '!line-height'], // 必须有*
       selectorBlackList: ['ignore']
     }
   }
