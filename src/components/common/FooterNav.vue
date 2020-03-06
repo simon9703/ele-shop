@@ -1,16 +1,18 @@
 <template>
   <footer class="wrap">
-    <div class="footer-nav card">
-      <section
-        v-for="item in list"
-        :key="item.id"
-        @click="go(item.id)"
-        :class="{active: item.id === current}"
-        class="footer-nav-item"
-      >
-        <svg-icon class="icon" :icon-name="item.icon"></svg-icon>
-        <span>{{item.desc}}</span>
-      </section>
+    <div class="footer-nav">
+      <div class="header-nav-container">
+        <section
+          v-for="item in list"
+          :key="item.id"
+          @click="go(item.id)"
+          :class="{active: item.id === current}"
+          class="item"
+        >
+          <svg-icon class="icon" :icon-name="item.icon"></svg-icon>
+          <span>{{item.desc}}</span>
+        </section>
+      </div>
     </div>
   </footer>
 </template>
@@ -59,19 +61,22 @@ export default {
   height: 8px * 2 + 20px + 2px + 10px * 1.2;
 }
 
-.card {
-  background: white;
-  box-shadow: 0 -1px 1px rgba(0, 0, 0, 0.1);
-}
-
+// 定位
 .footer-nav {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  display: flex;
+  z-index: 50; // 设置较高层级
+}
 
-  &-item {
+// 内容
+.header-nav-container {
+  display: flex;
+  background: white;
+  box-shadow: 0 -1px 1px rgba(0, 0, 0, 0.1);
+
+  .item {
     flex: 1;
     padding: 8px 0;
     text-align: center;

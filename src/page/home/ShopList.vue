@@ -1,7 +1,12 @@
 <template>
   <section>
     <div class="shoplist">
-      <div class="shoplist-item" v-for="element in shopsList" :key="element">
+      <div
+        class="shoplist-item"
+        v-for="element in shopsList"
+        :key="element.id"
+        @click="showDetail(element.id)"
+      >
         <div class="shoplist-item-container">
           <div class="info">
             <img :src="element.img" alt />
@@ -57,10 +62,15 @@ export default {
       shopsList: []
     }
   },
-  methods: {},
+  methods: {
+    showDetail(id) {
+      console.log(`查看第${id}项!`)
+    }
+  },
   created() {
     for (let i = 1; i < 20; i++) {
       let item = {
+        id: i,
         img: `/static/drink/yinliao_${i}.png`
       }
       this.shopsList.push(item)

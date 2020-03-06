@@ -1,14 +1,16 @@
 <template>
   <header class="wrap">
     <div class="header-nav">
-      <h3 class="center">
-        <slot></slot>
-      </h3>
-      <div class="left" @click="leftClick">
-        <slot name="left"></slot>
-      </div>
-      <div class="right" @click="rightClick">
-        <slot name="right"></slot>
+      <div class="header-nav-container">
+        <h3 class="center">
+          <slot></slot>
+        </h3>
+        <div class="left" @click="leftClick">
+          <slot name="left"></slot>
+        </div>
+        <div class="right" @click="rightClick">
+          <slot name="right"></slot>
+        </div>
       </div>
     </div>
   </header>
@@ -36,12 +38,13 @@ export default {
 <style lang="scss" scoped>
 $height: 48px;
 
-// 在正常文档流中的占位，让body中的元素滚动到底。
+// 在正常文档流中的占位，让body中的元素margin空出标题栏高度。
 .wrap {
   width: 100%;
   height: $height;
 }
 
+// 定位
 .header-nav {
   position: fixed;
   top: 0;
@@ -49,11 +52,14 @@ $height: 48px;
   right: 0;
   width: 100%;
   height: $height;
-  color: white;
   background: linear-gradient(to right, $primary-light, $primary);
+  z-index: 50; // 设置较高层级
 }
 
-.header-nav {
+// 内容
+.header-nav-container {
+  color: white;
+
   .left,
   .right {
     position: absolute;
