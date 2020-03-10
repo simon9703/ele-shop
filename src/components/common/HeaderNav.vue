@@ -53,7 +53,7 @@ $height: 48px;
   width: 100%;
   height: $height;
   background: linear-gradient(to right, $primary-light, $primary);
-  z-index: 50; // 设置较高层级
+  z-index: 100; // 设置较高层级
 }
 
 // 内容

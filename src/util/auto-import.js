@@ -1,5 +1,8 @@
 import Vue from 'vue'
 
+import GlobalMask from '@/components/global/base-mask'
+Vue.use(GlobalMask)
+
 const requireAll = ctx => ctx.keys().map(key => ctx(key)) // 引入上下文
 
 /**

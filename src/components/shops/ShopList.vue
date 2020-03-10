@@ -102,6 +102,7 @@ export default {
   .main {
     //右侧弹性放缩，与左侧等高
     flex: 1;
+    overflow: hidden; // 固定flex宽度
   }
 }
 
@@ -136,6 +137,7 @@ export default {
       font-weight: 700;
       line-height: 1.5;
       color: $emphasize;
+      @include ellipsis;
     }
 
     &-others {

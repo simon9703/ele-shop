@@ -27,14 +27,24 @@ $font-l: 15px;
 }
 
 /**
+ * absolute居中
+ */
+@mixin absolute-center() {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/**
   * 文本溢出...
-  * $font: 超过宽度时显示...
+  * 需要指定容器宽度。父布局可用flex:1|auto + overflow:hidden，固定到自适应宽度。
   */
-@mixin ellipsis($font: 10em) {
-  max-width: $font;
-  overflow: hidden;
-  text-overflow: ellipsis;
+@mixin ellipsis() {
+  // max-width: $font; $font: 10em
   white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 /** 
@@ -85,5 +95,17 @@ $font-l: 15px;
         transform: scale(0.3333, 1);
       }
     }
+  }
+}
+
+@mixin gradually() {
+  &-fade-in {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  &-face-out {
+    opacity: 0;
+    visibility: hidden;
   }
 }

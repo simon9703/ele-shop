@@ -1,13 +1,13 @@
 <template>
   <footer class="wrap">
     <div class="footer-nav">
-      <div class="header-nav-container">
+      <div class="footer-nav-container">
         <section
           v-for="item in list"
           :key="item.id"
           @click="go(item.id)"
           :class="{active: item.id === current}"
-          class="item"
+          class="footer-nav-item"
         >
           <svg-icon class="icon" :icon-name="item.icon"></svg-icon>
           <span>{{item.desc}}</span>
@@ -67,16 +67,16 @@ export default {
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 50; // 设置较高层级
+  z-index: 100; // 设置较高层级
 }
 
 // 内容
-.header-nav-container {
+.footer-nav-container {
   display: flex;
   background: white;
   box-shadow: 0 -1px 1px rgba(0, 0, 0, 0.1);
 
-  .item {
+  .footer-nav-item {
     flex: 1;
     padding: 8px 0;
     text-align: center;
@@ -85,8 +85,7 @@ export default {
     @include display-flex($direction: column);
 
     .icon {
-      width: 20px;
-      height: 20px;
+      font-size: 20px;
     }
 
     span {
