@@ -1,6 +1,6 @@
 <template>
   <div>
-    <header-nav @left-click="con">
+    <header-nav @left-click="search">
       饿了么
       <template #left>
         <svg-icon icon-name="search"></svg-icon>
@@ -39,9 +39,8 @@ export default {
     return {}
   },
   methods: {
-    con() {
-      console.log(123)
-      this.$mask('txt: ' + Math.random())
+    search() {
+      console.log('search')
     }
   }
 }

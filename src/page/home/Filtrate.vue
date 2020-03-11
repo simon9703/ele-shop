@@ -49,7 +49,7 @@
           :class="{active: element.id === currentCondition}"
           v-for="element in conditionList"
           :key="element.id"
-          @click="chooseCondition(element.id)"
+          @click.stop="chooseCondition(element.id)"
         >
           <div class="condition-dd-slip">
             <span class>{{element.desc}}</span>
@@ -98,15 +98,21 @@ export default {
   methods: {
     select(id) {
       this.current = id
-      console.log(id)
-
       if (id === 'condition') {
+        // 打开下拉列表
         this.showCondition = !this.showCondition
+        let that = this
+        this.$mask.open(() => {
+          console.log('condition+++', that.showCondition, '+++')
+          that.showCondition = false
+        })
       }
     },
     chooseCondition(id) {
+      // 下拉列表
+      // this.showCondition = false
       this.currentCondition = id
-      this.showCondition = false
+      this.$mask.close()
     }
   }
 }
