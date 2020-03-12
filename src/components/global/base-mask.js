@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import BaseMask from '@/components/common/BaseMask'
-
+import { pxConvertToUnit, unitConvertToPx } from '@/util/common'
 let BaseMaskConstrucor = Vue.extend(BaseMask) // 组件
 let instance = null // 当前实例（单例）
 let closeRelationFn // 调用组件关闭时，回调函数
@@ -10,7 +10,8 @@ let closeRelationFn // 调用组件关闭时，回调函数
 function lockBody() {
   let scrollTop = document.documentElement.scrollTop || document.body.scrollTop
   document.body.style.position = 'fixed'
-  document.body.style.top = `-${scrollTop}px`
+  // document.body.style.top = `-${scrollTop}px`
+  document.body.style.top = `-${pxConvertToUnit(scrollTop)}`
   document.body.style.width = '100%'
 }
 
@@ -20,7 +21,8 @@ function lockBody() {
 function unlockBody() {
   document.body.style.position = ''
   document.body.style.width = ''
-  document.documentElement.scrollTop = document.body.scrollTop = -parseInt(document.body.style.top)
+  // document.documentElement.scrollTop = document.body.scrollTop = -parseFloat(document.body.style.top) // -npx 转化成数值
+  document.documentElement.scrollTop = document.body.scrollTop = -unitConvertToPx(document.body.style.top)
   document.body.style.top = ''
 }
 
@@ -28,12 +30,12 @@ function unlockBody() {
  * 关闭body-fixed
  */
 function close() {
-  debugger
   if (!instance) return
+  unlockBody()
+
   closeRelationFn && closeRelationFn() // 关闭回调
   instance.$el.parentNode.removeChild(instance.$el)
   instance = null
-  unlockBody()
 }
 
 function install(vue, options) {
@@ -44,7 +46,6 @@ function install(vue, options) {
     closeRelationFn = fn // 关闭时，触发父组件函数
     instance = new BaseMaskConstrucor()
     instance.$mount() // 可挂载到指定节点，指定如#app(替换)。
-    console.log(instance)
     document.body.appendChild(instance.$el) // 在内存中创建后，手动挂载。
     lockBody()
   }
