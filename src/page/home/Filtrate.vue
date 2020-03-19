@@ -42,68 +42,80 @@
     </div>
 
     <!--condition列表 -->
-    <section class="dropdown" v-show="showCategory === 'condition'">
-      <div class="condition-container">
-        <dl>
-          <dd>
-            <div
-              class="condition-item"
-              :class="{active: element.id === condition.current}"
-              v-for="element in condition.list"
-              :key="element.id"
-              @click.stop="chooseCondition(element.id)"
-            >
-              <div class="condition-item-content">
-                <span class="tip">{{element.desc}}</span>
-                <svg-icon class="icon" icon-name="success"></svg-icon>
-              </div>
-            </div>
-          </dd>
-        </dl>
-      </div>
-    </section>
-
+    <transition name="model">
+      <section class="dropdown" v-show="showCategory === 'condition'">
+        <div class="dropdown-wrap">
+          <div class="condition-container">
+            <dl>
+              <dd>
+                <div
+                  class="condition-item"
+                  :class="{active: element.id === condition.current}"
+                  v-for="element in condition.list"
+                  :key="element.id"
+                  @click.stop="chooseCondition(element.id)"
+                >
+                  <div class="condition-item-content">
+                    <span class="tip">{{element.desc}}</span>
+                    <svg-icon class="icon" icon-name="success"></svg-icon>
+                  </div>
+                </div>
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </section>
+    </transition>
+    <!-- -->
     <!-- preparation列表 -->
-    <section class="dropdown" v-show="showCategory === 'preparation'">
-      <div class="preparation-container">
-        <dl>
-          <dt class="preparation-title">{{preparations.service.name}}</dt>
-          <dd>
+    <transition name="model">
+      <section class="dropdown" v-show="showCategory === 'preparation'">
+        <div class="dropdown-wrap">
+          <div class="preparation-container">
+            <dl>
+              <dt class="preparation-title">{{preparations.service.name}}</dt>
+              <dd>
+                <div
+                  class="preparation-item"
+                  v-for="element in preparations.service.list"
+                  :key="element.id"
+                  :class="{'active': preparations.service.chooseList.includes(element.id)}"
+                >
+                  <div @click.stop="choosePreparation('service',element.id)" class="mark">
+                    <!-- <svg-icon class="icon" icon-name="success"></svg-icon> -->
+                    <span class>{{element.desc}}</span>
+                  </div>
+                </div>
+              </dd>
+            </dl>
+            <dl>
+              <dt class="preparation-title">{{preparations.price.name}}</dt>
+              <dd>
+                <div
+                  class="preparation-item"
+                  v-for="element in preparations.price.list"
+                  :key="element.id"
+                  :class="{'active': preparations.price.chooseList.includes(element.id)}"
+                >
+                  <div @click.stop="choosePreparation('price',element.id)" class="mark">
+                    <!-- <svg-icon class="icon" icon-name="success"></svg-icon> -->
+                    <span class>{{element.desc}}</span>
+                  </div>
+                </div>
+              </dd>
+            </dl>
+          </div>
+          <div class="preparation-btns">
             <div
-              class="preparation-item"
-              v-for="element in preparations.service.list"
-              :key="element.id"
-              :class="{'active': preparations.service.chooseList.includes(element.id)}"
-            >
-              <div @click.stop="choosePreparation('service',element.id)" class="mark">
-                <!-- <svg-icon class="icon" icon-name="success"></svg-icon> -->
-                <span class>{{element.desc}}</span>
-              </div>
-            </div>
-          </dd>
-        </dl>
-        <dl>
-          <dt class="preparation-title">{{preparations.price.name}}</dt>
-          <dd>
-            <div
-              class="preparation-item"
-              v-for="element in preparations.price.list"
-              :key="element.id"
-              :class="{'active': preparations.price.chooseList.includes(element.id)}"
-            >
-              <div @click.stop="choosePreparation('price',element.id)" class="mark">
-                <!-- <svg-icon class="icon" icon-name="success"></svg-icon> -->
-                <span class>{{element.desc}}</span>
-              </div>
-            </div>
-          </dd>
-        </dl>
-      </div>
-      <div class="preparation-btns">
-        <div class="btn clear" :class="{'disable':preparationsChooseLiseEmpty}" @click="clear">清空</div>
-        <div class="btn confirm" @click="confirm">确定</div>
-      </div>
-    </section>
+              class="btn clear"
+              :class="{'disable':preparationsChooseLiseEmpty}"
+              @click="clear"
+            >清空</div>
+            <div class="btn confirm" @click="confirm">确定</div>
+          </div>
+        </div>
+      </section>
+    </transition>
   </section>
 </template>
 
@@ -114,6 +126,7 @@
 export default {
   data() {
     return {
+      list: ['condition', 'sail', 'distance', 'preparation'],
       current: '', // 当前选中分类
       showCategory: false, // 当前下拉列表
       condition: {
@@ -236,6 +249,8 @@ export default {
         this.$mask.open(() => {
           this.showCategory = '' // 关闭当前下拉列表（回调）
         })
+      } else {
+        this.$mask.close()
       }
     },
     /* condition下拉列表 */
@@ -322,7 +337,22 @@ $height: 42px; // 条件栏高度
   top: 100%; //相对sticky元素定位
   left: 0;
   right: 0;
-  background: white;
+  z-index: -10;
+
+  // 用于translate动画。
+  background: linear-gradient(
+    to bottom,
+    white 0%,
+    white 50%,
+    transparent 50%,
+    transparent 100%
+  ); //防止BFC: margin-top出现透明背景
+  overflow: hidden; // 防止translate时，突出影响其他组件。
+
+  // 用于translate动画。
+  .dropdown-wrap {
+    background: white;
+  }
 }
 
 // 综合下拉
@@ -435,6 +465,24 @@ $height: 42px; // 条件栏高度
       color: white;
       background: $success;
     }
+  }
+}
+
+.model-enter-active,
+.model-leave-active {
+  transition: 0.3s ease-in-out;
+  .dropdown-wrap {
+    transition: 0.3s ease-in-out;
+  }
+}
+
+.model-enter,
+.model-leave-to {
+  opacity: 0;
+  z-index: -5;
+
+  .dropdown-wrap {
+    transform: translateY(-50%);
   }
 }
 </style>
