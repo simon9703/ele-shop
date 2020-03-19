@@ -3,7 +3,7 @@
  * @param {*} px
  */
 export function pxConvertToUnit(px) {
-  let width = 375
+  let width = window.innerWidth
   let percent = 100
   let unit = 'vw'
   return px / (width / percent) + unit
@@ -14,7 +14,7 @@ export function pxConvertToUnit(px) {
  * @param {*} unit
  */
 export function unitConvertToPx(unit) {
-  let width = 375
+  let width = window.innerWidth
   let percent = 100
   return parseFloat(unit) * (width / percent)
 }

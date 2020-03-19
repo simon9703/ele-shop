@@ -1,17 +1,19 @@
 import Vue from 'vue'
 import BaseMask from '@/components/common/BaseMask'
-import { pxConvertToUnit, unitConvertToPx } from '@/util/common'
+import { pxConvertToUnit, unitConvertToPx } from '@/util/common' // 使用自适应单位
 let BaseMaskConstrucor = Vue.extend(BaseMask) // 组件
 let instance = null // 当前实例（单例）
 let closeRelationFn // 调用组件关闭时，回调函数
+let stayScrollDistance // 保留lockBody时vm单位
 /**
  * body设置fixed，阻止滑动
  */
 function lockBody() {
-  let scrollTop = document.documentElement.scrollTop || document.body.scrollTop
+  let top = document.documentElement.scrollTop || document.body.scrollTop // 获取fixed前滚动距离
+  stayScrollDistance = pxConvertToUnit(top)
   document.body.style.position = 'fixed'
-  // document.body.style.top = `-${scrollTop}px`
-  document.body.style.top = `-${pxConvertToUnit(scrollTop)}`
+  // document.body.style.top = `-${top}px`
+  document.body.style.top = `-${stayScrollDistance}`
   document.body.style.width = '100%'
 }
 
@@ -22,7 +24,7 @@ function unlockBody() {
   document.body.style.position = ''
   document.body.style.width = ''
   // document.documentElement.scrollTop = document.body.scrollTop = -parseFloat(document.body.style.top) // -npx 转化成数值
-  document.documentElement.scrollTop = document.body.scrollTop = -unitConvertToPx(document.body.style.top)
+  document.documentElement.scrollTop = document.body.scrollTop = unitConvertToPx(stayScrollDistance)
   document.body.style.top = ''
 }
 
