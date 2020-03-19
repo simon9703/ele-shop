@@ -1,0 +1,17 @@
+@charset "UTF-8";
+/* 全局scss */
+/**
+ * flex居中样式
+ */
+/**
+ * absolute居中
+ */
+/**
+  * 文本溢出...
+  * 需要指定容器宽度。父布局可用flex:1|auto + overflow:hidden，固定到自适应宽度。
+  * 必须要是block元素，才能设置宽度（inline不能设置宽度），裁剪子元素。
+  */
+/** 
+  * 移动端1px
+  * $position可选trbl单方向
+  */

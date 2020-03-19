@@ -41,6 +41,7 @@ $font-l: 15px;
 /**
   * 文本溢出...
   * 需要指定容器宽度。父布局可用flex:1|auto + overflow:hidden，固定到自适应宽度。
+  * 必须要是block元素，才能设置宽度（inline不能设置宽度），裁剪子元素。
   */
 @mixin ellipsis() {
   // max-width: $font; $font: 10em

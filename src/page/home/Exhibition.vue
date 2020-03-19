@@ -8,7 +8,7 @@
         class="item"
       >
         <img :src="element.img" alt />
-        <span>{{element.desc}}</span>
+        <p>{{element.desc}}</p>
       </router-link>
     </div>
   </nav>
@@ -45,6 +45,7 @@ export default {
   .item {
     flex: 0 0 25%;
     padding: 10px 0;
+    overflow: hidden;
     @include display-flex($direction: column);
   }
 }
@@ -55,9 +56,10 @@ export default {
     height: 40px;
   }
 
-  span {
+  p {
     margin-top: 4px;
     font-size: 12px;
+    @include ellipsis;
   }
 }
 </style>

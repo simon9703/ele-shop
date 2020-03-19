@@ -313,14 +313,22 @@ $height: 42px; // 条件栏高度
 
     &-desc {
       position: relative;
-      display: block;
       width: 100%;
       font-size: 14px;
       line-height: 1.5;
+      // line-height: $height;
       color: $normal;
       @include display-flex; // 文字 + 图标居中
-      @include ellipsis();
       @include onepx($position: right, $color: $ignore);
+      // @include ellipsis();
+
+      span {
+        @include ellipsis();
+      }
+
+      svg {
+        flex: none;
+      }
     }
   }
 }
