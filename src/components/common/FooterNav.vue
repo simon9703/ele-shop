@@ -23,6 +23,7 @@ export default {
     return {
       current: 'home',
       list: [
+        // 每项id需要和route中路由对应
         {
           id: 'home',
           icon: 'shouye',
@@ -48,8 +49,15 @@ export default {
   },
   methods: {
     go(path) {
-      this.current = path
+      this.$router.push(`/${path}`)
     }
+  },
+  created() {
+    this.list.forEach(item => {
+      if (this.$route.path.startsWith(`/${item.id}`)) {
+        this.current = item.id // 根据路由==>对应id
+      }
+    })
   }
 }
 </script>
