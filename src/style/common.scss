@@ -19,6 +19,18 @@ $font-m: 12px;
 $font-l: 15px;
 
 /**
+ * 清除浮动
+ * $position可选before | after
+ */
+@mixin clearfix($position: before) {
+  &::#{$position} {
+    content: '';
+    clear: both;
+    display: table;
+  }
+}
+
+/**
  * flex居中样式
  */
 @mixin display-flex($justify: center, $align: center, $direction: row) {
@@ -97,6 +109,39 @@ $font-l: 15px;
       @media (-webkit-min-device-pixel-ratio: 3) {
         transform: scale(0.3333, 1);
       }
+    }
+  }
+}
+
+/** 
+  * 移动端1px --> 一整圈。
+  * 单单指定一边时，整圈放大-->缩小会出现误差，结果大于1px。
+  */
+@mixin onepx-round($color: $primary-light, $radius: 0) {
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+    border: 1px solid $color;
+    transform-origin: top left;
+    // 默认按照 dpr > 2
+    @media (-webkit-min-device-pixel-ratio: 2) {
+      $pixel-ratio: 2;
+      width: 100% * $pixel-ratio;
+      height: 100% * $pixel-ratio;
+      border-radius: $radius * $pixel-ratio;
+      transform: scale(1 / $pixel-ratio);
+    }
+
+    // dpr > 3 时
+    @media (-webkit-min-device-pixel-ratio: 3) {
+      $pixel-ratio: 3;
+      width: 100% * $pixel-ratio;
+      height: 100% * $pixel-ratio;
+      border-radius: $radius * $pixel-ratio;
+      transform: scale(1 / $pixel-ratio);
     }
   }
 }

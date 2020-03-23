@@ -1,6 +1,6 @@
 <template>
   <footer class="wrap">
-    <div class="footer-nav">
+    <div class="footer-nav" ref="nav">
       <div class="footer-nav-container">
         <section
           v-for="item in list"

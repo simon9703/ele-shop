@@ -111,7 +111,11 @@ export default {
     width: 64px;
     height: 64px;
     vertical-align: middle; // 与段落同底
-    background: rgba(0, 0, 0, 0.05); // 图片占位颜色
+
+    // 图片未加载时占位
+    min-width: 64px;
+    min-height: 64px;
+    background: rgba(0, 0, 0, 0.05);
   }
 }
 
