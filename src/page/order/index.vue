@@ -41,12 +41,21 @@
 </template>
 
 <script>
+// let dd = {
+//   img: '/static/drink/yinliao_1.png',
+//   shopName: '无印良品',
+//   status: '订单已送达',
+//   date: '2020-01-05 12:45',
+//   clarify: '泛泛莓莓等3件商品',
+//   price: '52.50'
+// }
+
 export default {
   data() {
     return {
       list: [],
-      loading: false,
-      scrollFn: undefined
+      loading: false, // 加载更多状态
+      scrollFn: undefined // 加载更多绑定函数，用于删除
     }
   },
   methods: {
@@ -63,31 +72,18 @@ export default {
       console.log('retry: ', id)
       this.getMore()
     },
-    getMore() {
-      let result = []
-      for (let i = 0; i < 8; i++) {
-        result.push(this.createProduct())
+    async getMore() {
+      let params = {
+        sleep: 1000,
+        offset: 10,
+        limit: 8
       }
-      this.list.push(...result)
-    },
-    createProduct() {
-      let dd = {
-        img: '/static/drink/yinliao_1.png',
-        shopName: '无印良品',
-        status: '订单已送达',
-        date: '2020-01-05 12:45',
-        clarify: '泛泛莓莓等3件商品',
-        price: '52.50'
-      }
-      let id = Math.random() * 20
-      let i = Math.ceil(id)
-      dd.id = id
-      dd.img = `/static/drink/yinliao_${i}.png`
-      return dd
+      let { data } = await this.request.post('/orders', params)
+
+      this.list.push(...data.data.list)
     }
   },
   created() {
-    console.log('created!!')
     this.getMore()
   },
   mounted() {
@@ -95,16 +91,15 @@ export default {
       let rect = this.$refs.load.getBoundingClientRect()
       let footer = this.$refs.footer.$refs.nav.getBoundingClientRect()
       let gap = rect.top - footer.top
-      console.log('scroll', gap)
+      // console.log('scroll', gap)
       if (gap < 0 && !this.loading) {
         this.loading = true
         console.log('loading start.......')
 
-        setTimeout(() => {
+        this.getMore().finally(() => {
           console.log('loading end.......')
-          this.getMore()
           this.loading = false
-        }, 3000)
+        })
       }
     }
     window.addEventListener('scroll', scrollFn)
@@ -141,7 +136,9 @@ export default {
 
   &-content {
     flex: 1;
-    @include display-flex($justify: space-between);
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
   }
 }
 

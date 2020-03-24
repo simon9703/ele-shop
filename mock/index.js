@@ -1,32 +1,50 @@
 const Mock = require('mockjs')
 
-let login = {
-  firstname: '@cfirst',
-  lastname: '@clast'
+/**
+ * 服务器等待时间
+ * @param {*} times 毫秒
+ */
+function sleep(times = 0) {
+  let start = new Date()
+  let end = new Date()
+  while (end - start < times) {
+    end = new Date()
+  }
 }
 
 module.exports = function(app) {
-  //   let bodyParser = require('body-parser')
-  //   app.use(bodyParser.urlencoded({ extended: false }))
-
-  app.post('/login', (req, res) => {
-    res.json(Mock.mock(Object.assign(login, req.body)))
-  })
-
-  app.get('/login', (req, res) => {
-    res.json(Mock.mock(Object.assign(login, req.query)))
-  })
+  var bodyParser = require('body-parser')
+  app.use(bodyParser.json()) // 添加post + json 参数解析器
 
   app.post('/sleep', (req, res) => {
-    let start = new Date()
-    let end = new Date()
-    while (end - start < 2000) {
-      end = new Date()
+    let user = {
+      firstname: '@cfirst',
+      lastname: '@clast'
+    }
+    res.json({
+      code: '104',
+      data: Mock.mock(user)
+    })
+  })
+
+  app.post('/orders', (req, res) => {
+    sleep(req.body.sleep)
+    let orders = {
+      'list|8': [
+        {
+          img: '/static/drink/yinliao_@integer(1,20).png',
+          shopName: '@cword(4,8)',
+          status: '订单已送达',
+          date: '@datetime',
+          clarify: '@cword(4,8)-等@integer(1,20)件商品',
+          price: '@float(20, 200, 2, 2)'
+        }
+      ]
     }
 
     res.json({
-      code: '104',
-      data: Mock.mock(login)
+      code: '0000',
+      data: Mock.mock(orders)
     })
   })
 }

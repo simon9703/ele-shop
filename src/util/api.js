@@ -7,7 +7,6 @@ const service = axios.create({
 
 service.interceptors.request.use(
   config => {
-    console.log(config)
     config.headers['x-token'] = '7777777' // 自定义请求头
     return config
   },
