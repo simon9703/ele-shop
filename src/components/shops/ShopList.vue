@@ -113,8 +113,8 @@ export default {
     vertical-align: middle; // 与段落同底
 
     // 图片未加载时占位
-    min-width: 64px;
-    min-height: 64px;
+    // min-width: 64px;
+    // min-height: 64px;
     background: rgba(0, 0, 0, 0.05);
   }
 }

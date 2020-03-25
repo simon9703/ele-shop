@@ -8,6 +8,9 @@ const service = axios.create({
 service.interceptors.request.use(
   config => {
     config.headers['x-token'] = '7777777' // 自定义请求头
+    if (process.env.NODE_ENV === 'development') {
+      config.baseURL = window.location.origin // 默认使用本地代理启动时，地址：localhost ===> 改为当前访问(如手机)地址，如192.168.0.1
+    }
     return config
   },
   error => {

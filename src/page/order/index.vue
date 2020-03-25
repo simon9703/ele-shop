@@ -9,8 +9,8 @@
           :key="element.id"
         >
           <div class="goods-item">
-            <div class="goods-item-gallery">
-              <img :src="element.img" alt />
+            <div class="goods-item-gallery" lazy-load-img :data-origin="element.img">
+              <img src="../../assets/skeleton/nothing.png" :alt="element.shopName" />
             </div>
             <div class="goods-item-content">
               <div class="title">
@@ -53,6 +53,7 @@
 export default {
   data() {
     return {
+      result: '1',
       list: [],
       loading: false, // 加载更多状态
       scrollFn: undefined // 加载更多绑定函数，用于删除
@@ -79,8 +80,38 @@ export default {
         limit: 8
       }
       let { data } = await this.request.post('/orders', params)
-
       this.list.push(...data.data.list)
+
+      // 新的DOM构建成功后，计算一次需要懒加载的图片。
+      this.$nextTick(() => {
+        this.lazyLoadImage()
+      })
+    },
+    lazyLoadImage() {
+      let imgs = document.querySelectorAll('div[lazy-load-img]')
+      imgs.forEach(item => {
+        let rect = item.getBoundingClientRect()
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          // 克隆出新的图片（保留data--v-scopexx属性，用于css-scope选择器）。
+          let img = item.querySelector('img').cloneNode()
+          img.src = item.dataset.origin
+          img.classList.add('image')
+
+          // 原图加载中。。。不必再次加载
+          item.removeAttribute('lazy-load-img')
+
+          // 原图加载成功。。。
+          img.onload = function() {
+            item.replaceChild(img, item.querySelector('img'))
+            item.removeAttribute('data-origin')
+          }
+
+          // 原图加载失败。。。重新监听
+          img.onerror = function() {
+            item.setAttribute('lazy-load-img', '')
+          }
+        }
+      })
     }
   },
   created() {
@@ -88,16 +119,13 @@ export default {
   },
   mounted() {
     let scrollFn = () => {
-      let rect = this.$refs.load.getBoundingClientRect()
-      let footer = this.$refs.footer.$refs.nav.getBoundingClientRect()
-      let gap = rect.top - footer.top
-      // console.log('scroll', gap)
-      if (gap < 0 && !this.loading) {
+      this.lazyLoadImage()
+      let loading = this.$refs.load.getBoundingClientRect()
+      if (loading.top < window.innerHeight && loading.bottom > 0 && !this.loading) {
+        // 加载框经过视口时触发。
         this.loading = true
-        console.log('loading start.......')
 
         this.getMore().finally(() => {
-          console.log('loading end.......')
           this.loading = false
         })
       }
@@ -106,6 +134,7 @@ export default {
     this.scrollFn = scrollFn
   },
   destroyed() {
+    // 删除mounted中scroll的监听。
     window.removeEventListener('scroll', this.scrollFn)
     console.log('destoryed!!')
   }
@@ -144,14 +173,15 @@ export default {
 
 // 订单图片信息
 .goods-item-gallery {
+  width: 32px;
+  height: 32px;
+
   img {
-    width: 32px;
-    height: 32px;
+    width: 100%;
+    height: 100%;
     vertical-align: middle;
 
     // 图片未加载时占位
-    min-width: 32px;
-    min-height: 32px;
     background: rgba(0, 0, 0, 0.05);
   }
 }
