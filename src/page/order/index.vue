@@ -63,6 +63,7 @@ export default {
     showDetail(id) {
       // 订单详情
       console.log('detail: ', id)
+      this.$router.push('/order/detail')
     },
     gotoGoods(id) {
       // 进入商铺
@@ -119,6 +120,7 @@ export default {
   },
   mounted() {
     let scrollFn = () => {
+      console.log('scroll')
       this.lazyLoadImage()
       let loading = this.$refs.load.getBoundingClientRect()
       if (loading.top < window.innerHeight && loading.bottom > 0 && !this.loading) {
@@ -143,7 +145,7 @@ export default {
 
 <style lang="scss" scoped>
 .order {
-  background: #f5f6f7;
+  background: $background;
   min-height: 100vh;
   @include clearfix; // 取消列表内首项margin-top的BFC
 }

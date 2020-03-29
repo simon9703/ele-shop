@@ -81,6 +81,7 @@ $height: 48px;
 
   .center {
     font-size: 18px;
+    font-weight: 700;
     line-height: $height;
     text-align: center;
   }

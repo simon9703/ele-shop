@@ -7,7 +7,6 @@ import Order from '@/page/order'
 import Discover from '@/page/discover'
 import Info from '@/page/info'
 
-import Test from '@/page/test'
 let router = [
   {
     path: '/',
@@ -29,14 +28,14 @@ let router = [
     component: Order
   },
   {
+    path: '/order/detail',
+    name: 'OrderDetail',
+    component: () => import('@/page/order-detail')
+  },
+  {
     path: '/info',
     name: 'Info',
     component: Info
-  },
-  {
-    path: '/test',
-    name: 'Test',
-    component: Test
   }
 ]
 
