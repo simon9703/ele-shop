@@ -8,7 +8,7 @@ const requireAll = ctx => ctx.keys().map(key => ctx(key)) // 引入上下文
 /**
  * 自动引入图标SVG
  */
-let iconCtx = require.context('@/assets/icon', false, /\.svg$/)
+let iconCtx = require.context('@/assets/icon', true, /\.svg$/)
 requireAll(iconCtx)
 
 /**
