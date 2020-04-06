@@ -20,7 +20,7 @@
 export default {
   data() {
     return {
-      height: '42px' // 与sass $height同步
+      height: '44px' // 与sass $height同步
     }
   },
   props: {},
@@ -38,7 +38,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$height: 42px;
+$height: 44px;
 
 // 在正常文档流中的占位，让body中的元素margin空出标题栏高度。
 .wrap {
