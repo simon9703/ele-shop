@@ -295,7 +295,7 @@ $height: 42px; // 条件栏高度
   position: sticky;
   left: 0;
   right: 0;
-  top: 48px;
+  top: 42px; // 标题栏高度
   z-index: 100;
 }
 

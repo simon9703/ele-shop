@@ -1,5 +1,5 @@
 <template>
-  <header class="wrap">
+  <header class="wrap" ref="header">
     <div class="header-nav">
       <div class="header-nav-container">
         <h3 class="center">
@@ -19,7 +19,9 @@
 <script>
 export default {
   data() {
-    return {}
+    return {
+      height: '42px' // 与sass $height同步
+    }
   },
   props: {},
   methods: {
@@ -36,7 +38,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$height: 48px;
+$height: 42px;
 
 // 在正常文档流中的占位，让body中的元素margin空出标题栏高度。
 .wrap {
