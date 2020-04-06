@@ -80,9 +80,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.shoplist {
-}
-
 // 每条内容容器
 .shoplist-item {
   position: relative;

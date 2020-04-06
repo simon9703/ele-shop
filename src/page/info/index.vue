@@ -138,14 +138,14 @@ export default {
     &:nth-child(1) {
       // 红包
       .amount {
-        color: #ff5f3e;
+        color: $red;
       }
     }
 
     &:nth-child(2) {
       // 金币
       .amount {
-        color: #6ac20b;
+        color: $green;
       }
     }
   }
