@@ -131,19 +131,17 @@ export default {
 
     .detail {
       margin-right: 12px;
-      color: $red;
-
       @include display-flex();
 
       span {
         position: relative;
         display: inline-block;
-        padding: 1px 2px;
+        padding: 1px 3px;
+        color: $red;
         font-size: 10px;
-        border-radius: 4px;
-        @include onepx-round($color: $red);
+        @include onepx-round($color: $red, $radius: 2px);
 
-        &:not(:last-of-type) {
+        @include not-last() {
           margin-right: 12px;
         }
       }

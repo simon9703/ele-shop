@@ -65,6 +65,15 @@ $font-l: 15px;
   overflow: hidden;
 }
 
+/**
+ * 除最后一项外，的子选项选择器。
+ */
+@mixin not-last() {
+  &:not(:last-of-type) {
+    @content;
+  }
+}
+
 /** 
   * 移动端1px
   * $position可选trbl单方向
