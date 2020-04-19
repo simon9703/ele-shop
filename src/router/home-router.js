@@ -3,6 +3,7 @@
  */
 
 import Home from '@/page/home'
+import GoodsDetail from '@/page/goods-detail'
 import Order from '@/page/order'
 import Discover from '@/page/discover'
 import Info from '@/page/info'
@@ -16,6 +17,11 @@ let router = [
     path: '/home',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/goods-detail',
+    name: 'GoodsDEtail',
+    component: GoodsDetail
   },
   {
     path: '/discover',

@@ -42,6 +42,14 @@ export default {
     search() {
       console.log('search')
     }
+  },
+  mixins: {
+    mmm() {
+      return 123
+    }
+  },
+  created() {
+    console.log(this)
   }
 }
 </script>

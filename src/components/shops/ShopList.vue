@@ -65,6 +65,7 @@ export default {
   methods: {
     showDetail(id) {
       console.log(`查看第${id}项!`)
+      this.$router.push('/goods-detail')
     }
   },
   created() {
