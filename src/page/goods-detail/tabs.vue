@@ -64,13 +64,13 @@ export default {
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 3px;
+    height: 2px;
 
     .solid {
       position: absolute;
       left: 0;
       width: $item-width;
-      height: 3px;
+      height: 2px;
       background: $primary-light;
 
       transition: 0.2s ease-in-out;

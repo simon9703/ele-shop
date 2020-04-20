@@ -34,18 +34,21 @@
         </div>
       </div>
 
-      <div class="news">公告：本店退出多件新的单品，需要发票的请单独备注。</div>
+      <div class="news">公告：本店推出多件新的单品，均可放心食用。需要发票的请单独备注。</div>
     </section>
 
     <tabs />
+    <chain-slider></chain-slider>
   </div>
 </template>
 
 <script>
-import Tabs from './tabs'
+import Tabs from './Tabs'
+import ChainSlider from './ChainSlider'
 export default {
   components: {
-    Tabs
+    Tabs,
+    ChainSlider
   },
   methods: {
     back() {
@@ -160,7 +163,7 @@ export default {
   .news {
     margin-top: 8px;
     width: 100%;
-    font-size: 13px;
+    font-size: 11px;
     color: $slight;
     @include ellipsis;
   }
