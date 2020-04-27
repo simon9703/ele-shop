@@ -10,7 +10,7 @@ import './util/auto-import'
 import './util/permission'
 
 Vue.config.productionTip = false
-Vue.prototype.request = axios // 全局注册 ==> this.xx
+Vue.prototype.$request = axios // 全局注册 ==> this.xx
 
 /* eslint-disable no-new */
 new Vue({

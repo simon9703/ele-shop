@@ -80,7 +80,7 @@ export default {
         offset: 10,
         limit: 8
       }
-      let { data } = await this.request.post('/orders', params)
+      let { data } = await this.$request.post('/orders', params)
       this.list.push(...data.data.list)
 
       // 新的DOM构建成功后，计算一次需要懒加载的图片。

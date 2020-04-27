@@ -16,14 +16,27 @@
             <h3>{{element.name}}</h3>
           </dt>
           <dd>
-            <div class="goods" v-for="item in element.data" :key="item.id">
+            <div class="goods" v-for="item in element.data" :key="'' + item.id + element.id">
               <div class="photo">
-                <img src alt />
+                <img :src="item.img" alt />
               </div>
               <div class="detail">
-                <p class="title">{{item.title}}</p>
-                <p class="describe">{{item.describe}}</p>
-                <p class="price">{{item.price}}</p>
+                <div class="clearify">
+                  <p class="title">{{item.title}}</p>
+                  <p class="describe">{{item.describe}}</p>
+                  <p class="sail">
+                    <span>月销量{{item.amount}}份</span>
+                    <span>好评率100%</span>
+                  </p>
+                </div>
+                <div class="bottom">
+                  <div class="price">
+                    ¥
+                    <span>{{item.price}}</span>
+                    起
+                  </div>
+                  <svg-icon icon-name="add"></svg-icon>
+                </div>
               </div>
             </div>
           </dd>
@@ -34,72 +47,90 @@
 </template>
 
 <script>
+/*
+ 数据格式
+ lists: [{
+          id: 0,
+          name: '分类名称',
+          data: [
+            {
+              id: '',
+              img: '',
+              title: '商品名称',
+              describe: '商品描述',
+              amount: '已销售数目',
+              price: '价钱'
+            }
+          ]
+        }],
+*/
+
 export default {
   data() {
     return {
       current: 0,
+      scrollByClick: false, // 点击选中导航时，锁住滚动事件监听。
       lists: [],
-      contentHeight: []
+      contentHeight: [] // 所有子列表顶部，滚动距离集合。
     }
   },
   methods: {
     choose(index) {
+      // 点击选中导航
       this.current = index
+      this.scrollByClick = true // 锁住滚动事件。防止选中改变srollTop时，被浏览器裁剪1个最小单位，达不到滚动位置。而引起的
       this.$refs['content'].scrollTop = this.contentHeight[index]
+    },
+    async fetchData() {
+      let { data } = await this.$request.post('/goods')
+      this.lists = data.data.list
+
+      // 新的list构建成功后，计算列表高度和初始化滚动事件。
+      this.$nextTick(() => {
+        this.initScroll()
+      })
+    },
+    initScroll() {
+      // 计算初始化时，滚动列表高度
+      this.contentHeight = [0] // 第一个子列表的scroll在0位置。
+      let contentItems = this.$refs['content-item']
+      for (let i = 0, sum = 0, len = this.lists.length; i < len; i++) {
+        let { height } = contentItems[i].getBoundingClientRect()
+        sum += height
+        this.contentHeight.push(sum)
+      }
+
+      // 列表滚动级联
+      this.$refs['content'].addEventListener('scroll', e => {
+        // 过滤由导航栏click引起的改变。
+        if (this.scrollByClick) {
+          this.scrollByClick = false
+          return
+        }
+
+        // 计算导航栏选项索引
+        let scrollTop = e.target.scrollTop
+        for (let i = 0, len = this.contentHeight.length; i < len; i++) {
+          if (this.contentHeight[i] < scrollTop && this.contentHeight[i + 1] > scrollTop) {
+            this.current = i
+            break
+          }
+        }
+      })
     }
   },
   created() {
-    for (let i = 0; i < 8; i++) {
-      let temp = { id: i, name: '果汁甜品' + i, data: [] }
-      for (let j = 0; j <= i; j++) {
-        let id = `${i}-${j}`
-        let temp2 = {
-          id: id,
-          img: '',
-          title: 'xxxx' + id,
-          describe: 'ddddddddddddd' + id
-          // price: 18
-        }
-
-        temp.data.push(temp2)
-      }
-      this.lists.push(temp)
-    }
-  },
-  mounted() {
-    // 初始化滚动列表
-    this.contentHeight = [0]
-    let contentItems = this.$refs['content-item']
-    for (let i = 0, sum = 0, len = this.lists.length; i < len; i++) {
-      let { height } = contentItems[i].getBoundingClientRect()
-      sum += height
-      this.contentHeight.push(sum)
-    }
-    console.log('items height: ', this.contentHeight)
-
-    // 列表滚动级联
-    this.$refs['content'].addEventListener('scroll', e => {
-      let scrollTop = e.target.scrollTop
-      console.log(scrollTop)
-      for (let i = 0, len = this.contentHeight.length; i < len; i++) {
-        if (this.contentHeight[i] < scrollTop && this.contentHeight[i + 1] > scrollTop) {
-          this.current = i
-          break
-        }
-      }
-    })
+    this.fetchData()
   }
 }
 </script>
 
 <style lang="scss" scoped>
+// 左右级联菜单
 .chain {
   height: 70vh;
   margin-top: 12px;
-  border: 1px solid green;
   display: flex;
-  // position: fixed;
-  // top: 20px;
 
   .tabs {
     flex: none;
@@ -107,43 +138,121 @@ export default {
 
   .content {
     flex: 1;
-
-    position: sticky;
-    top: 20px;
   }
 }
 
+// 导航栏
 .tabs {
-  background: #f5f6f7;
+  background: $gray;
 
   &-item {
     width: 80px;
-    line-height: 3;
+    padding: 16px 8px;
     text-align: center;
-    font-size: 14px;
+    font-size: 12px;
     color: $normal;
 
-    border-right: 2px solid transparent;
+    // 选中状态
     &.active {
-      border-right-color: blue;
+      background: white;
     }
   }
 }
 
+// 滚动内容
 .content {
-  margin: 0 8px;
   overflow: scroll;
 
+  // 分类名称
   dt {
-    position: sticky; // 只有当dl在视口内时，变为sticky
+    /* ===> 随滑动吸顶
+    position: sticky;  // 只有当dl在视口内时，变为sticky
     top: 0px;
-    line-height: 30px;
-    background: #f5f6f7;
+    background: $gray;
+    */
+    h3 {
+      padding: 6px 10px;
+      font-size: 12px;
+      font-weight: bold;
+      color: $emphasize;
+    }
   }
 
+  // 详情
   .goods {
-    height: 60px;
-    border-bottom: 1px solid blue;
+    display: flex;
+    justify-content: center;
+    padding: 4px 0 8px;
+
+    .photo {
+      flex: none;
+      width: 80px;
+      height: 80px;
+      background: white;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .detail {
+      flex: 1;
+      overflow: hidden; // 用于子元素溢出截断
+
+      display: flex;
+      justify-content: space-between;
+      align-items: stretch;
+      flex-direction: column;
+      margin: 0 8px;
+
+      .clearify {
+        .title {
+          font-size: 15px;
+          font-weight: bold;
+          color: $emphasize;
+        }
+
+        .describe,
+        .sail {
+          margin-top: 2px;
+          font-size: 10px;
+          color: $slight;
+          @include ellipsis;
+        }
+
+        .sail {
+          display: flex;
+
+          span {
+            margin-right: 4px;
+          }
+        }
+      }
+
+      .bottom {
+        @include display-flex($justify: space-between, $align: flex-end);
+
+        .price {
+          display: flex;
+          align-items: flex-end;
+          margin-bottom: 4px;
+          font-size: 10px;
+          color: $red;
+          span {
+            margin: 0 1px;
+            font-size: 14px;
+            line-height: 1;
+          }
+        }
+
+        // 添加按钮
+        svg {
+          font-size: 20px;
+          color: $primary;
+        }
+      }
+    }
   }
 }
 </style>

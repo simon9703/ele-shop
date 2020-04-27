@@ -27,8 +27,10 @@ module.exports = function(app) {
     })
   })
 
+  // 订单列表
   app.post('/orders', (req, res) => {
-    sleep(req.body.sleep)
+    // sleep(req.body.sleep)
+    sleep(1500)
     let orders = {
       'list|8': [
         {
@@ -45,6 +47,34 @@ module.exports = function(app) {
     res.json({
       code: '0000',
       data: Mock.mock(orders)
+    })
+  })
+
+  // 商品列表
+  app.post('/goods', (req, res) => {
+    sleep(1000)
+    let goods = {
+      'list|6': [
+        {
+          id: '@id',
+          name: '@cword(2,6)',
+          'data|6': [
+            {
+              id: '@id',
+              img: 'static/fruit/baixiangguo.png',
+              title: '@cword(2,6)',
+              describe: '@cparagraph',
+              amount: '@integer(10, 200)',
+              price: '@integer(10, 40)'
+            }
+          ]
+        }
+      ]
+    }
+
+    res.json({
+      code: '0000',
+      data: Mock.mock(goods)
     })
   })
 }
