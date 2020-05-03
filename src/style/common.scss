@@ -139,6 +139,15 @@ $font-l: 15px;
     box-sizing: border-box;
     border: 1px solid $color;
     transform-origin: top left;
+
+    @media (-webkit-min-device-pixel-ratio: 1) {
+      $pixel-ratio: 1;
+      width: 100% * $pixel-ratio;
+      height: 100% * $pixel-ratio;
+      border-radius: $radius * $pixel-ratio;
+      transform: scale(1 / $pixel-ratio);
+    }
+
     // 默认按照 dpr > 2
     @media (-webkit-min-device-pixel-ratio: 2) {
       $pixel-ratio: 2;
