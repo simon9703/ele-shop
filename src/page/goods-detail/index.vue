@@ -152,6 +152,7 @@ export default {
 
     .other {
       @include display-flex;
+      color: $slight;
 
       svg {
         margin-left: 4px;

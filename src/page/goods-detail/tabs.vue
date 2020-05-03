@@ -46,13 +46,16 @@ export default {
 
 <style lang="scss" scoped>
 .nav {
+  position: relative;
   @include display-flex; // 固定选项卡宽度
+  @include onepx($position: bottom);
 }
 
 .content {
   $item-width: 54px;
   position: relative;
-  @include display-flex($justify: space-between);
+
+  @include display-flex();
 
   .item {
     width: $item-width;
@@ -69,10 +72,10 @@ export default {
     .solid {
       position: absolute;
       left: 0;
+      bottom: 0;
       width: $item-width;
       height: 2px;
       background: $primary-light;
-
       transition: 0.2s ease-in-out;
     }
   }

@@ -16,7 +16,12 @@
             <h3>{{element.name}}</h3>
           </dt>
           <dd>
-            <div class="goods" v-for="item in element.data" :key="'' + item.id + element.id">
+            <div
+              class="goods"
+              v-for="item in element.data"
+              :key="item.id"
+              @click="popGoodsExplain(item.id)"
+            >
               <div class="photo">
                 <img :src="item.img" alt />
               </div>
@@ -75,6 +80,10 @@ export default {
     }
   },
   methods: {
+    popGoodsExplain(id) {
+      // 商品详情
+      console.log('查看商品：', id)
+    },
     choose(index) {
       // 点击选中导航
       this.current = index
@@ -174,7 +183,7 @@ export default {
       padding: 6px 10px;
       font-size: 12px;
       font-weight: bold;
-      color: $emphasize;
+      color: $normal;
     }
   }
 
@@ -188,7 +197,7 @@ export default {
       flex: none;
       width: 80px;
       height: 80px;
-      background: white;
+      background: #f7f7f7; // 图片默认背景
 
       img {
         width: 100%;
