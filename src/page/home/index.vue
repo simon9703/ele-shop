@@ -27,7 +27,7 @@
 <script>
 import Exhibition from './Exhibition'
 import ShopList from '@/components/shops/ShopList'
-import Filtrate from './Filtrate'
+import Filtrate from '@/components/shops/Filtrate'
 
 export default {
   components: {

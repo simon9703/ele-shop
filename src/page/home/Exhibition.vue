@@ -27,7 +27,7 @@ export default {
   created() {
     for (let i = 1; i < 8; i++) {
       let item = {
-        url: '/',
+        url: `/category?id=${i}`,
         desc: '食物' + i,
         img: `/static/food/shiwu_${i}.png`
       }

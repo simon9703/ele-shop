@@ -54,15 +54,15 @@ module.exports = function(app) {
 
   // 商品列表
   app.post('/goods', (req, res) => {
-    sleep(1000)
+    sleep(300)
     let paths = findSync('./static/fruit') // 所有图片路径：['static/fruit/baixiangguo.png']
     let names = findSync('./static/fruit', false) // 所有图片名称：baixiangguo
     let goods = {
-      'list|6': [
+      'list|5-12': [
         {
           id: '@id',
           name: '@cword(2,6)',
-          'data|6': [
+          'data|5-20': [
             {
               id: '@id',
               // img: 'static/fruit/baixiangguo.png',
@@ -88,6 +88,34 @@ module.exports = function(app) {
     res.json({
       code: '0000',
       data: c
+    })
+  })
+
+  app.post('/categories', (req, res) => {
+    sleep(300)
+    let paths = findSync('./static/fruit') // 所有图片路径：['static/fruit/baixiangguo.png']
+    let categories = {
+      'list|10-20': [
+        {
+          id: '@id',
+          title: '@cword(2, 4)',
+          'photo|1': paths,
+          count: '@integer(80, 500)',
+          'data|8-40': [
+            {
+              id: '@id',
+              'photo|1': paths,
+              title: '@cword(2, 4)',
+              count: '@integer(80, 200)'
+            }
+          ]
+        }
+      ]
+    }
+
+    res.json({
+      code: '0000',
+      data: Mock.mock(categories)
     })
   })
 }

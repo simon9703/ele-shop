@@ -153,6 +153,7 @@ export default {
 // 导航栏
 .tabs {
   background: $gray;
+  overflow-y: scroll;
 
   &-item {
     width: 80px;
@@ -197,7 +198,7 @@ export default {
       flex: none;
       width: 80px;
       height: 80px;
-      background: #f7f7f7; // 图片默认背景
+      // background: #f7f7f7; // 图片默认背景
 
       img {
         width: 100%;

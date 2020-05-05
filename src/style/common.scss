@@ -79,7 +79,7 @@ $font-l: 15px;
   * 移动端1px
   * $position可选trbl单方向
   */
-@mixin onepx($position: bottom, $color: #f1f1f1) {
+@mixin onepx($position: bottom, $color: #e1e1e1) {
   // position: relative;
 
   &::before {
@@ -130,7 +130,7 @@ $font-l: 15px;
   * 移动端1px --> 一整圈。
   * 单单指定一边时，整圈放大-->缩小会出现误差，结果大于1px。
   */
-@mixin onepx-round($color: $primary-light, $radius: 0) {
+@mixin onepx-round($color: #f1f1f1, $radius: 0) {
   &::before {
     content: '';
     position: absolute;
