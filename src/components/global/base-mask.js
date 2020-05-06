@@ -35,7 +35,8 @@ function close() {
   if (!instance) return
   unlockBody()
 
-  closeRelationFn && closeRelationFn() // 关闭回调
+  closeRelationFn() // 关闭回调
+
   instance.$el.parentNode.removeChild(instance.$el)
   instance = null
 }
@@ -43,11 +44,14 @@ function close() {
 function install(vue, options) {
   // options: Vue.use时传入参数
 
-  Vue.prototype.$mask = function(fn) {
-    if (instance) return // 当前实例已经存在时跳过
+  Vue.prototype.$mask = function(fn = () => {}) {
+    if (instance) {
+      // 当前实例已经存在时，先关闭之前的。
+      close()
+    }
     closeRelationFn = fn // 关闭时，触发父组件函数
     instance = new BaseMaskConstrucor()
-    instance.$mount() // 可挂载到指定节点，指定如#app(替换)。
+    instance.$mount() // 可挂载到指定节点，指定如#app(替换)
     document.body.appendChild(instance.$el) // 在内存中创建后，手动挂载。
     lockBody()
   }

@@ -1,41 +1,44 @@
 <template>
-  <section class="hunt-menu" v-show="showMenu">
-    <div class="header">
-      <h3>请选择分类</h3>
-      <svg-icon @click.native="closeMenu" icon-name="close"></svg-icon>
-    </div>
-    <div class="container">
-      <div class="main-menu">
-        <ul>
-          <li
-            v-for="(element, index) in list"
-            :key="element.id"
-            :class="{'active': mainCurrent === index}"
-            @click="chooseMain(index)"
-          >
-            <span class="title">{{element.title}}</span>
-            <span class="count">{{element.count}}</span>
-          </li>
-        </ul>
+  <div v-show="showMenu">
+    <section class="hunt-menu">
+      <div class="header">
+        <h3>请选择分类</h3>
+        <svg-icon @click.native="closeMenu" icon-name="close"></svg-icon>
       </div>
-      <div class="sub-menu">
-        <ul>
-          <li
-            v-for="(item, index) in list[mainCurrent]&&list[mainCurrent].data"
-            :key="item.id"
-            :class="{'active': subCurrent === index}"
-            @click="chooseSub(index)"
-          >
-            <div class="photo">
-              <img :src="item.photo" alt />
-            </div>
-            <span class="title">{{item.title}}</span>
-            <span class="count">{{item.count}}</span>
-          </li>
-        </ul>
+      <div class="container">
+        <div class="main-menu">
+          <ul>
+            <li
+              v-for="(element, index) in list"
+              :key="element.id"
+              :class="{'active': mainCurrent === index}"
+              @click="chooseMain(index)"
+            >
+              <span class="title">{{element.title}}</span>
+              <span class="count">{{element.count}}</span>
+            </li>
+          </ul>
+        </div>
+        <div class="sub-menu">
+          <ul>
+            <li
+              v-for="(item, index) in list[mainCurrent]&&list[mainCurrent].data"
+              :key="item.id"
+              :class="{'active': subCurrent === index}"
+              @click="chooseSub(index)"
+            >
+              <div class="photo">
+                <img :src="item.photo" alt />
+              </div>
+              <span class="title">{{item.title}}</span>
+              <span class="count">{{item.count}}</span>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+    <!-- <base-mask></base-mask> -->
+  </div>
 </template>
 
 <script>
@@ -44,40 +47,57 @@ export default {
     showMenu: {
       type: Boolean,
       required: true
+    },
+    list: {
+      type: Array,
+      required: true
     }
   },
   data() {
     return {
       mainCurrent: 0,
-      subCurrent: 0,
-      list: []
+      subCurrent: 0
     }
   },
   methods: {
     closeMenu() {
       this.$emit('update:showMenu', false)
     },
+    // 选中主菜单
     chooseMain(index) {
       this.mainCurrent = index
       this.subCurrent = 0 // 切换主菜单时重置
     },
+    // 选中子菜单
     chooseSub(index) {
       this.subCurrent = index
+      this.closeMenu()
     }
   },
   created() {
-    this.$request.post('/categories').then(({ data }) => {
-      this.list = data.data.list
-      this.list.forEach(item => {
-        // 每条子菜单添加全部选项。
-        item.data.unshift({
-          title: '全部',
-          count: item.count,
-          photo: item.photo
+    // this.$request.post('/categories').then(({ data }) => {
+    //   this.list = data.data.list
+    //   this.list.forEach(item => {
+    //     // 每条子菜单添加全部选项。
+    //     item.data.unshift({
+    //       title: '全部',
+    //       count: item.count,
+    //       photo: item.photo
+    //     })
+    //   })
+    // })
+  },
+  watch: {
+    showMenu(val) {
+      // 打开|关闭菜单时，相应遮罩处理。
+      if (val) {
+        this.$mask.open(() => {
+          this.closeMenu()
         })
-      })
-      console.log(this.list)
-    })
+      } else {
+        this.$mask.close()
+      }
+    }
   }
 }
 </script>
@@ -200,6 +220,7 @@ export default {
       .count {
         color: white;
         background: $primary;
+        @include onepx-round($color: $primary, $radius: 10px);
       }
     }
   }
