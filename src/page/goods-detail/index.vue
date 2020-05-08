@@ -37,17 +37,17 @@
       <div class="news">公告：本店推出多件新的单品，均可放心食用。需要发票的请单独备注。</div>
     </section>
 
-    <!-- <tabs /> -->
+    <tabs />
     <chain-slider></chain-slider>
   </div>
 </template>
 
 <script>
-// import Tabs from './Tabs'
+import Tabs from './Tabs'
 import ChainSlider from './ChainSlider'
 export default {
   components: {
-    // Tabs,
+    Tabs,
     ChainSlider
   },
   methods: {
