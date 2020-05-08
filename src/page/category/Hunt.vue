@@ -6,7 +6,7 @@
           <li
             class="item"
             v-for="(item, index) in list[mainCurrent]&&list[mainCurrent].data"
-            :key="item"
+            :key="item.id"
             :class="{'active': subCurrent === index}"
             @click="choose(index)"
           >{{item.title}}</li>
@@ -78,7 +78,7 @@ export default {
     }
   },
   methods: {
-    // 打开下拉菜单
+    // 打开|关闭下拉菜单
     toggleMenu() {
       this.showMenu = !this.showMenu
     },
@@ -155,7 +155,7 @@ $height: 44px;
       line-height: 1;
       font-size: 14px;
       color: white;
-      opacity: 0.8;
+      opacity: 0.75;
 
       // 选中状态
       &.active {
@@ -185,6 +185,9 @@ $height: 44px;
 }
 
 // 呼出菜单
+.hunt-menu {
+  background: rgb(2, 1, 1);
+}
 // 标题栏
 .header {
   padding: 0 20px;
@@ -213,10 +216,8 @@ $height: 44px;
 
   .main-menu {
     flex: none;
-    position: relative;
     width: 140px;
     overflow-y: scroll;
-    @include onepx($position: right);
   }
 
   .sub-menu {
@@ -260,6 +261,13 @@ $height: 44px;
 // 主菜单
 .main-menu {
   @extend .base-menu;
+
+  // 主|子菜单之间分割线
+  ul {
+    position: relative;
+    @include onepx($position: right);
+  }
+
   // 选中状态
   ul {
     li.active {
