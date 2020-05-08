@@ -19,11 +19,11 @@ let router = [
     name: 'Home',
     component: Home
   },
-  {
-    path: '/goods-detail',
-    name: 'GoodsDEtail',
-    component: GoodsDetail
-  },
+  // {
+  //   path: '/goods-detail',
+  //   name: 'GoodsDEtail',
+  //   component: GoodsDetail
+  // },
   {
     path: '/category',
     name: 'Category',
