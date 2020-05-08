@@ -43,8 +43,9 @@
 </template>
 
 <script>
-import Tabs from './Tabs'
 import ChainSlider from './ChainSlider'
+import Tabs from './Tabs'
+
 export default {
   components: {
     Tabs,
