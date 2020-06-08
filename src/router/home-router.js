@@ -3,7 +3,6 @@
  */
 
 import Home from '@/page/home'
-import GoodsDetail from '@/page/goods-detail'
 import Category from '@/page/category'
 import Order from '@/page/order'
 import Discover from '@/page/discover'
@@ -22,7 +21,7 @@ let router = [
   {
     path: '/goods-detail',
     name: 'GoodsDEtail',
-    component: GoodsDetail
+    component: () => import('@/page/goods-detail')
   },
   {
     path: '/category',
