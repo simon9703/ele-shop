@@ -32,7 +32,8 @@ const webpackConfig = merge(baseWebpackConfig, {
         vendors: {
           test: /[\\/]node_modules[\\/]/,
           chunks: 'initial',
-          name: 'vendors'
+          name: 'vendors',
+          priority: 10
         },
         'async-vendors': {
           test: /[\\/]node_modules[\\/]/,
@@ -40,10 +41,18 @@ const webpackConfig = merge(baseWebpackConfig, {
           chunks: 'async',
           name: 'async-vendors'
         },
+        vue: {
+          // vue模块单独打包
+          test: /[\\/]node_modules[\\/]vue[\\/]/,
+          chunks: 'initial',
+          name: 'vue',
+          priority: 20 // 优先级最高，不然会被打到vendor或app
+        },
         'common-styles': {
           test: /\.css|scss$/,
           chunks: 'all',
-          name: 'common-styles'
+          name: 'common-styles',
+          reuseExistingChunk: true
         }
       }
     },
