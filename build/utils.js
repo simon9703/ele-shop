@@ -53,7 +53,7 @@ exports.cssLoaders = function(options) {
       indentedSyntax: true
     }),
     scss: generateLoaders('sass', {
-      data: `@import "@/style/common.scss";` // zsm 添加全局sass文件
+      additionalData: `@import "@/style/common.scss";` // zsm 添加全局sass文件
     }),
     stylus: generateLoaders('stylus'),
     styl: generateLoaders('stylus')
