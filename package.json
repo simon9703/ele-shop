@@ -12,7 +12,7 @@
     "analyze": "cross-env bundle_report=true npm run build"
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "better-scroll": "^1.15.2",
     "nprogress": "^0.2.0",
     "vue": "^2.6.11",
